@@ -1,18 +1,215 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Siman Mobile Massage</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Siman — Mobile Massage by Vitty</title>
+  <link rel="stylesheet" href="./styles.css"/>
 </head>
 <body>
-  <h1>Welcome to Siman Massage</h1>
-  <button id="adminToggle">Admin: Off</button>
-  <div id="adminPanel" style="display:none;">
-    <h2>Admin Panel</h2>
-    <p>Here you can manage bookings.</p>
-  </div>
-  <script src="app.js"></script>
+  <header>
+    <div class="container bar">
+      <a class="brand" href="#">
+        <div class="logo">S</div>
+        <div>
+          <div style="font-weight:700">Siman</div>
+          <div class="small muted">Mobile Massage by Vitty</div>
+        </div>
+      </a>
+      <nav class="hide-sm">
+        <a href="#services">Services</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#about">About</a>
+        <a href="#booking">Booking</a>
+        <a href="#faqs">FAQs</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div>
+        <a href="#booking" class="btn primary">Book</a>
+        <button id="adminToggle" class="btn admin-toggle">Admin: Off</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container section">
+        <div class="hero-grid">
+          <div>
+            <span class="badge">Mobile massage for women</span>
+            <h1 class="h1">Siman — Mobile Massage that comes to you</h1>
+            <p class="lead">Hi, I’m <strong>Vitty</strong> — a single mum who loves helping women slow down. I bring a foldable massage bed to your home and set up in minutes. Whether you’re a busy professional, a homemaker, or a woman enjoying later life, my women‑only service makes self‑care easy and safe.</p>
+            <div style="display:flex;gap:10px;margin-top:16px">
+              <a href="#booking" class="btn primary">Book now</a>
+              <a href="#services" class="btn">See services</a>
+            </div>
+            <div style="display:flex;gap:16px;margin-top:12px" class="muted small">
+              <div class="kv">🚗 I come to you</div>
+              <div class="kv">🛡️ Women-only, safety first</div>
+              <div class="kv">⏱️ Setup in minutes</div>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="aspect-ratio:4/3;border-radius:20px;display:grid;place-items:center;background:#fff">
+              <div style="text-align:center">
+                <div style="font-size:60px">💆‍♀️</div>
+                <div style="font-weight:600;margin-top:6px">Massage at Home</div>
+                <div class="muted small">Foldable bed • Fresh linen • Calming oils</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="section">
+      <div class="container">
+        <h2>Services</h2>
+        <div class="muted">Gentle, respectful and tailored to your needs. Women of all ages welcome.</div>
+        <div id="servicesCards" class="row row-4" style="margin-top:16px"></div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section" style="background:#fff5f7">
+      <div class="container">
+        <h2>Simple pricing</h2>
+        <div class="muted">No travel fees in local service area. Add $20 for evenings after 7pm.</div>
+        <div id="pricingCards" class="row row-4" style="margin-top:16px"></div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container row row-2">
+        <div>
+          <h2>About Vitty</h2>
+          <p class="muted">I’m a single working mum who finds joy in helping other women feel grounded again. I understand the pressure of balancing a career, home, and family — which is why I created <strong>Siman</strong>, a women‑only mobile massage service. I bring a professional, foldable massage bed, fresh linens and calming oils, and I set up in minutes so you can reclaim an hour just for you.</p>
+          <ul class="clean">
+            <li>Qualified therapist with a gentle, respectful approach.</li>
+            <li>Women only. Your comfort and safety come first.</li>
+            <li>I come to you — home, hotel or workplace.</li>
+          </ul>
+        </div>
+        <div class="card pad" style="text-align:center">
+          <div style="font-size:50px">🛏️</div>
+          <div style="font-weight:600">Foldable massage bed</div>
+          <div class="muted small">Set up in minutes, fits small spaces, hygienic linens.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="booking" class="section">
+      <div class="container">
+        <h2>Real‑time booking</h2>
+        <div class="muted">Choose a time that works for you. Only available times are shown. <span class="small">(Times are local)</span></div>
+        <div class="row row-2" style="margin-top:16px">
+          <div class="card pad">
+            <form id="bookingForm" class="form-grid">
+              <div>
+                <label>Choose service</label>
+                <select id="service"></select>
+              </div>
+              <div>
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <div class="small">Pick a date</div>
+                  <div class="small muted">All times shown are in your local time.</div>
+                </div>
+                <div id="bookingDays" class="grid-7" style="margin-top:8px"></div>
+              </div>
+              <div>
+                <div class="small">Available times on <span id="pickedDate"></span>:</div>
+                <div id="slots" class="grid-6" style="margin-top:8px"></div>
+                <input type="hidden" id="slotValue"/>
+              </div>
+              <div class="form-grid">
+                <div><label>Full name</label><input id="name" placeholder="e.g., Alex Lee"/></div>
+                <div><label>Email</label><input id="email" type="email" placeholder="you@example.com"/></div>
+                <div><label>Suburb</label><input id="suburb" placeholder="e.g., Bondi, NSW"/></div>
+                <div><label>Notes (optional)</label><textarea id="notes" rows="4" placeholder="Access, parking details, preferences..."></textarea></div>
+              </div>
+              <button class="btn primary" type="submit">Request booking</button>
+              <div class="small muted">We’ll confirm by email/SMS once your booking is accepted. No payment is taken until confirmed (demo).</div>
+            </form>
+          </div>
+          <div class="row" style="gap:16px">
+            <div id="adminPanel" class="card pad" style="display:none">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><strong>Vitty's Availability (Admin)</strong><span class="badge">Local only</span></div>
+              <div id="adminDays" class="grid-7" style="margin-bottom:12px"></div>
+              <div class="small muted" style="margin-bottom:6px">Toggle hours you can work. Default window is 9am–7pm; add/remove as needed.</div>
+              <div id="adminHours" class="grid-6"></div>
+              <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+                <button id="open97" class="btn">Open 9–7</button>
+                <button id="closeDay" class="btn">Close day</button>
+                <button id="exportJSON" class="btn">Export JSON</button>
+                <label class="btn"><input id="importJSON" type="file" accept="application/json" style="display:none"/>Import JSON</label>
+              </div>
+            </div>
+            <div class="card pad">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><strong>Incoming Requests</strong></div>
+              <div id="noBookings" class="small muted">No requests yet.</div>
+              <table class="table"><tbody id="bookingsBody"></tbody></table>
+              <div class="small muted" style="margin-top:8px">Tip: use Export/Import in Availability to back up or move data.</div>
+            </div>
+            <div class="card pad">
+              <strong>How it works</strong>
+              <ol class="clean">
+                <li>Pick your treatment, date and time.</li>
+                <li>Tell me your suburb and any access details.</li>
+                <li>I confirm your booking and arrive with my foldable bed, linens and oils.</li>
+                <li>Relax. I set up in minutes and pack down quietly.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faqs" class="section">
+      <div class="container">
+        <h2>FAQs</h2>
+        <div class="row row-2" style="margin-top:12px">
+          <div class="card pad"><div style="font-weight:600">Do you bring everything?</div><div class="muted small">Yes — professional foldable bed, fresh linens, oils and music if you’d like.</div></div>
+          <div class="card pad"><div style="font-weight:600">Which areas do you service?</div><div class="muted small">Eastern Suburbs and Inner Sydney by default. Get in touch if you’re outside this area.</div></div>
+          <div class="card pad"><div style="font-weight:600">Is this a women‑only service?</div><div class="muted small">Yes. Siman is dedicated to women of all ages for comfort and safety.</div></div>
+          <div class="card pad"><div style="font-weight:600">What if I need to cancel?</div><div class="muted small">Please give at least 24 hours notice where possible.</div></div>
+          <div class="card pad"><div style="font-weight:600">How do I pay?</div><div class="muted small">Secure link sent after confirmation. No payment taken until booking is accepted (demo).</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container row row-2">
+        <div>
+          <h2>Contact</h2>
+          <div class="muted">Have a question? Prefer to chat before booking? I’d love to hear from you.</div>
+          <div style="margin-top:10px" class="muted small">
+            <div>📞 0400 000 000</div>
+            <div>✉️ hello@simanmassage.com</div>
+          </div>
+        </div>
+        <div class="card pad">
+          <div style="font-weight:600">Gift vouchers</div>
+          <div class="muted small">Treat someone you love to an hour of calm at home. Digital vouchers available on request.</div>
+          <a href="#booking" class="btn primary" style="margin-top:10px">Book a session</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container small">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div>© <span id="year"></span> Siman Massage. All rights reserved.</div>
+        <div style="display:flex;gap:10px">
+          <a href="#faqs">FAQs</a><a href="#contact">Contact</a><a href="#booking">Book</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script src="./app.js"></script>
 </body>
 </html>
