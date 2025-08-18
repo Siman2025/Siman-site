@@ -1,78 +1,205 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Siman – Mobile Massage for Women</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Siman — Mobile Massage by Vitty</title>
+  <link rel="stylesheet" href="./styles.css"/>
 </head>
 <body>
   <header>
-    <h1>Siman</h1>
-    <p>Mobile Massage Service for Women</p>
+    <div class="container bar">
+      <a class="brand" href="#">
+        <div class="logo">S</div>
+        <div>
+          <div style="font-weight:700">Siman</div>
+          <div class="small muted">Mobile Massage by Vitty</div>
+        </div>
+      </a>
+      <nav class="hide-sm">
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#booking">Booking</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div>
+        <a href="#booking" class="btn primary">Book</a>
+        <button id="adminToggle" class="btn admin-toggle">Admin: Off</button>
+      </div>
+    </div>
   </header>
 
-  <nav>
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#booking">Booking</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <main>
+    <section class="hero">
+      <img src="https://source.unsplash.com/1600x900/?massage,spa,woman" alt="Relaxing home massage">
+      <div class="overlay"></div>
+      <div class="copy">
+        <div>
+          <span class="badge">Mobile massage for women</span>
+          <h1>Wellness delivered to your door</h1>
+          <p class="lead">Unwind at home with calming, in‑home massage therapies — from pregnancy support to therapeutic care.</p>
+          <div style="margin-top:12px">
+            <a href="#booking" class="btn primary">Book now</a>
+            <a href="#services" class="btn">See services</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <section id="hero">
-    <img src="images/hero.jpg" alt="Relaxing massage at home" />
-    <h2>Massage in the comfort of your own home</h2>
-  </section>
+    <section id="services" class="section">
+      <div class="container">
+        <h2>Services & Pricing</h2>
+        <div class="muted">Gentle, respectful and tailored to your needs. Women of all ages welcome.</div>
+        <div class="grid grid-3" style="margin-top:16px">
+          <div class="card pad service-card">
+            <img src="https://source.unsplash.com/800x600/?aromatherapy,essential-oils" alt="Aromatherapy oils">
+            <div style="font-weight:600">Aromatherapy Massage</div>
+            <div class="muted small">Essential oils to calm the nervous system and lift mood.</div>
+            <div style="margin-top:6px"><strong>$130</strong> / 60m</div>
+          </div>
+          <div class="card pad service-card">
+            <img src="https://source.unsplash.com/800x600/?pregnancy,massage" alt="Prenatal massage">
+            <div style="font-weight:600">Prenatal & Postnatal</div>
+            <div class="muted small">Safe positioning and soothing techniques for mums and mums‑to‑be.</div>
+            <div style="margin-top:6px"><strong>$120</strong> / 60m • <strong>$75</strong> / 30m</div>
+          </div>
+          <div class="card pad service-card">
+            <img src="https://source.unsplash.com/800x600/?hot,stone,massage" alt="Hot stone massage">
+            <div style="font-weight:600">Hot Stone / Relaxation</div>
+            <div class="muted small">Warm stones or light‑medium pressure to melt stress.</div>
+            <div style="margin-top:6px"><strong>$120</strong> / 60m</div>
+          </div>
+          <div class="card pad service-card">
+            <img src="https://source.unsplash.com/800x600/?remedial,massage" alt="Remedial massage">
+            <div style="font-weight:600">Remedial / Swedish</div>
+            <div class="muted small">Therapeutic focus for pain, injury or mobility concerns.</div>
+            <div style="margin-top:6px"><strong>$120</strong> / 60m • <strong>$70</strong> / 30m</div>
+          </div>
+          <div class="card pad service-card">
+            <img src="https://source.unsplash.com/800x600/?scalp,massage,spa" alt="Head massage">
+            <div style="font-weight:600">Head & Shoulder</div>
+            <div class="muted small">Ease desk‑tension and tight shoulders.</div>
+            <div style="margin-top:6px"><strong>$65</strong> / 30m</div>
+          </div>
+          <div class="card pad service-card">
+            <img src="https://source.unsplash.com/800x600/?foot,reflexology,massage" alt="Foot reflexology">
+            <div style="font-weight:600">Foot Reflexology</div>
+            <div class="muted small">Stimulate pressure points for whole‑body balance.</div>
+            <div style="margin-top:6px"><strong>$65</strong> / 30m</div>
+          </div>
+        </div>
+        <div class="caption">Images served via Unsplash source API / royalty‑free usage; see license links in footer.</div>
+      </div>
+    </section>
 
-  <section id="about">
-    <h2>About Siman</h2>
-    <p>
-      Siman is a mobile massage service created by Vitty, a single mum who understands the 
-      pressures of balancing work, family, and self-care. With a foldable massage bed that 
-      sets up in minutes, Siman brings comfort and relaxation directly to your home.
-    </p>
-    <p>
-      Our focus is on women of all ages – from busy professionals and homemakers to older 
-      women seeking gentle care. Vitty takes pride in providing a dedicated, understanding, 
-      and restorative massage service tailored to women’s needs.
-    </p>
-    <img src="images/about.jpg" alt="Massage therapist Vitty" />
-  </section>
+    <section id="about" class="section">
+      <div class="container grid grid-2">
+        <div>
+          <h2>About Siman</h2>
+          <p>Hi, I’m <strong>Chaman (Vitty)</strong> — a qualified massage therapist certified in Sydney. I’m passionate about supporting women’s health and wellbeing through personalised, professional massage therapy in the comfort of your own home.</p>
+          <p>The inspiration behind launching my mobile massage business came during my pregnancy with my first child. That experience made me realise how important it is to have access to quality care at home, especially for women, the elderly, or anyone facing mobility challenges.</p>
+          <p>Since 2018, I’ve focused on compassionate, tailored treatments. No two bodies are the same — my techniques adapt to each client. I’m also studying Reiki to deepen my practice.</p>
+        </div>
+        <div class="card pad">
+          <div style="font-weight:600">Women‑only mobile massage</div>
+          <div class="muted small">Safety and comfort first • We come to you • Set up in minutes</div>
+        </div>
+      </div>
+    </section>
 
-  <section id="services">
-    <h2>Services & Prices</h2>
-    <ul>
-      <li>60 min Relaxation Massage – $90</li>
-      <li>90 min Relaxation Massage – $120</li>
-      <li>Remedial Massage – $110 (60 min)</li>
-      <li>Aged Care Gentle Massage – $80 (60 min)</li>
-    </ul>
-    <img src="images/services.jpg" alt="Massage service examples" />
-  </section>
+    <section id="booking" class="section">
+      <div class="container">
+        <h2>Real‑time booking</h2>
+        <div class="muted">Choose a time that works for you. Only available times are shown. <span class="small">(Times are local)</span></div>
+        <div class="grid grid-2" style="margin-top:16px">
+          <div class="card pad">
+            <form id="bookingForm" class="form-grid">
+              <div>
+                <label>Choose service</label>
+                <select id="service"></select>
+              </div>
+              <div>
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <div class="small">Pick a date</div>
+                  <div class="small muted">All times shown are in your local time.</div>
+                </div>
+                <div id="bookingDays" class="grid-7" style="margin-top:8px"></div>
+              </div>
+              <div>
+                <div class="small">Available times on <span id="pickedDate"></span>:</div>
+                <div id="slots" class="grid-6" style="margin-top:8px"></div>
+                <input type="hidden" id="slotValue"/>
+              </div>
+              <div class="form-grid">
+                <div><label>Full name</label><input id="name" placeholder="e.g., Alex Lee"/></div>
+                <div><label>Email</label><input id="email" type="email" placeholder="you@example.com"/></div>
+                <div><label>Suburb</label><input id="suburb" placeholder="e.g., Bondi, NSW"/></div>
+                <div><label>Notes (optional)</label><textarea id="notes" rows="4" placeholder="Access, parking details, preferences..."></textarea></div>
+              </div>
+              <button class="btn primary" type="submit">Request booking</button>
+              <div class="small muted">We’ll confirm by email/SMS once your booking is accepted. No payment is taken until confirmed (demo).</div>
+            </form>
+          </div>
+          <div class="grid" style="gap:16px">
+            <div id="adminPanel" class="card pad" style="display:none">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><strong>Vitty's Availability (Admin)</strong><span class="badge">Local only</span></div>
+              <div id="adminDays" class="grid-7" style="margin-bottom:12px"></div>
+              <div class="small muted" style="margin-bottom:6px">Toggle hours you can work. Default window is 9am–7pm; add/remove as needed.</div>
+              <div id="adminHours" class="grid-6"></div>
+              <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+                <button id="open97" class="btn">Open 9–7</button>
+                <button id="closeDay" class="btn">Close day</button>
+                <button id="exportJSON" class="btn">Export JSON</button>
+                <label class="btn"><input id="importJSON" type="file" accept="application/json" style="display:none"/>Import JSON</label>
+              </div>
+            </div>
+            <div class="card pad">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><strong>Incoming Requests</strong></div>
+              <div id="noBookings" class="small muted">No requests yet.</div>
+              <table class="table"><tbody id="bookingsBody"></tbody></table>
+            </div>
+            <div class="card pad note">
+              <strong>Note:</strong> This is a demo booking widget for GitHub Pages (no server). To accept/cancel requests, please contact us via email.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <section id="booking">
-    <h2>Book a Massage</h2>
-    <p>Select an available time slot below:</p>
-    <iframe 
-      src="https://calendly.com/your-siman-booking" 
-      style="width:100%; height:600px; border:none;" 
-      title="Booking system">
-    </iframe>
-  </section>
+    <section id="contact" class="section">
+      <div class="container grid grid-2">
+        <div>
+          <h2>Contact</h2>
+          <div class="muted">We bring care to your home.</div>
+          <div style="margin-top:10px" class="muted">
+            <div>📞 0422 727 322</div>
+            <div>✉️ <a href="mailto:simanmassage@gmail.com">simanmassage@gmail.com</a></div>
+            <div>📍 Mobile massage (we come to you)</div>
+          </div>
+        </div>
+        <div class="card pad">
+          <div style="font-weight:600">Gift vouchers</div>
+          <div class="muted small">Treat someone you love to an hour of calm at home. Digital vouchers available on request.</div>
+          <a href="#booking" class="btn primary" style="margin-top:10px">Book a session</a>
+        </div>
+      </div>
+    </section>
+  </main>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:contact@simanmassage.com">contact@simanmassage.com</a></p>
-    <p>Phone: 0400 123 456</p>
-    <img src="images/contact.jpg" alt="Contact Siman Massage" />
-  </section>
-
-  <footer>
-    <p>© 2025 Siman Massage Service. All rights reserved.</p>
-    <button onclick="adminLogin()">Admin On</button>
-    <button onclick="adminLogout()">Admin Off</button>
+  <footer class="footer">
+    <div class="container small">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div>© <span id="year"></span> Siman Massage. All rights reserved.</div>
+        <div style="display:flex;gap:10px">
+          <a href="#services">Services</a><a href="#about">About</a><a href="#booking">Book</a><a href="#contact">Contact</a>
+        </div>
+      </div>
+      <div class="caption">Images served from Unsplash (source API) and suitable for commercial use under Unsplash license. See licenses: Unsplash / Pexels.</div>
+    </div>
   </footer>
 
-  <script src="app.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="./app.js"></script>
 </body>
 </html>

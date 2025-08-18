@@ -8,7 +8,7 @@ const toSlot = (d,h)=> `${fmtDate(d)}T${pad(h)}:00`;
 const today = new Date(); today.setHours(0,0,0,0);
 
 // Admin password gate
-const ADMIN_PASSWORD = "Siman!2025";
+const ADMIN_PASSWORD = "Siman!2025"; // change if you like
 let ADMIN_ON = false;
 try { ADMIN_ON = sessionStorage.getItem("siman_admin_on") === "1"; } catch {}
 function requireAdmin() {
@@ -23,8 +23,26 @@ function requireAdmin() {
   return false;
 }
 
-// Booking state
-const STORAGE_KEY='siman_availability_v1_static';
+// Services (for dropdown)
+const SERVICES = [
+  {name:"Aromatherapy Massage", minutes:60, price:130},
+  {name:"Relaxing Oil Massage", minutes:60, price:120},
+  {name:"Relaxing Oil Massage", minutes:30, price:75},
+  {name:"Prenatal Massage", minutes:60, price:120},
+  {name:"Prenatal Massage", minutes:30, price:75},
+  {name:"Postnatal Massage", minutes:60, price:120},
+  {name:"Postnatal Massage", minutes:30, price:75},
+  {name:"Swedish Massage", minutes:60, price:120},
+  {name:"Remedial Massage", minutes:60, price:120},
+  {name:"Remedial Massage", minutes:30, price:70},
+  {name:"Hot Stone Massage", minutes:60, price:120},
+  {name:"Indian Head Massage", minutes:30, price:45},
+  {name:"Head & Shoulder Massage", minutes:30, price:65},
+  {name:"Foot Reflexology Massage", minutes:30, price:65},
+];
+
+// State
+const STORAGE_KEY='siman_availability_v2';
 function load(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || null }catch{return null} }
 function save(state){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 function buildInitial(){
@@ -39,6 +57,17 @@ function buildInitial(){
 let state = load() || buildInitial();
 save(state);
 
+// Populate service dropdown
+const sel = document.getElementById('service');
+if (sel) {
+  SERVICES.forEach(s=>{
+    const opt=document.createElement('option');
+    opt.value=s.name;
+    opt.textContent=`${s.name} — ${s.minutes} min ($${s.price})`;
+    sel.appendChild(opt);
+  });
+}
+
 // Admin toggle
 $('#adminToggle').addEventListener('click', ()=>{
   if (!ADMIN_ON) {
@@ -51,7 +80,7 @@ $('#adminToggle').addEventListener('click', ()=>{
   $('#adminPanel').style.display = ADMIN_ON ? 'block':'none';
 });
 
-// Calendar
+// Calendar + bookings
 let selectedDate = new Date(today);
 function renderMiniCalendars(){
   const grid = $('#bookingDays'); grid.innerHTML='';
