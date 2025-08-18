@@ -6,15 +6,9 @@ const fmtDate = (d) => d.toISOString().slice(0,10);
 const pad = (n)=> String(n).padStart(2,'0');
 const toSlot = (d,h)=> `${fmtDate(d)}T${pad(h)}:00`;
 const today = new Date(); today.setHours(0,0,0,0);
-const SERVICES = [
-  {key:'relaxation', name:'Relaxation Massage', minutes:60, price:109, blurb:'Light–medium pressure to melt stress.'},
-  {key:'deep', name:'Deep Tissue Massage', minutes:60, price:129, blurb:'Target knots and chronic tension.'},
-  {key:'remedial', name:'Remedial Massage', minutes:60, price:139, blurb:'Assessment + treatment for aches and pains.'},
-  {key:'pregnancy', name:'Pregnancy Massage', minutes:60, price:129, blurb:'Side-lying comfort for mums-to-be (2nd–3rd trimester).'},
-];
 
-// === Simple admin password gate ===
-const ADMIN_PASSWORD = "Siman!2025"; // change if you like
+// Admin password gate
+const ADMIN_PASSWORD = "Siman!2025";
 let ADMIN_ON = false;
 try { ADMIN_ON = sessionStorage.getItem("siman_admin_on") === "1"; } catch {}
 function requireAdmin() {
@@ -29,7 +23,7 @@ function requireAdmin() {
   return false;
 }
 
-// State
+// Booking state
 const STORAGE_KEY='siman_availability_v1_static';
 function load(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || null }catch{return null} }
 function save(state){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
@@ -57,32 +51,7 @@ $('#adminToggle').addEventListener('click', ()=>{
   $('#adminPanel').style.display = ADMIN_ON ? 'block':'none';
 });
 
-// Populate services
-const svcSel = $('#service');
-SERVICES.forEach(s=>{
-  const opt = document.createElement('option');
-  opt.value = s.key;
-  opt.textContent = `${s.name} — ${s.minutes} min ($${s.price})`;
-  svcSel.appendChild(opt);
-});
-const servicesWrap = $('#servicesCards');
-const pricingWrap = $('#pricingCards');
-SERVICES.forEach(s=>{
-  const c = document.createElement('div');
-  c.className='card pad';
-  c.innerHTML = `<div style="font-weight:600">${s.name}</div>
-    <div class="muted small">${s.blurb}</div>
-    <div class="small" style="margin-top:6px">Duration: ${s.minutes} min</div>`;
-  servicesWrap.appendChild(c);
-  const p = document.createElement('div');
-  p.className='card pad';
-  p.innerHTML = `<div style="font-weight:600">${s.name}</div>
-  <div style="font-size:26px;font-weight:700;margin-top:8px">$${s.price}<span class="muted" style="font-size:14px;font-weight:400"> / ${s.minutes}m</span></div>
-  <a href="#booking" class="btn primary" style="margin-top:10px;display:inline-block">Book this</a>`;
-  pricingWrap.appendChild(p);
-});
-
-// Calendars
+// Calendar
 let selectedDate = new Date(today);
 function renderMiniCalendars(){
   const grid = $('#bookingDays'); grid.innerHTML='';
@@ -152,8 +121,6 @@ function renderAdminHours(){
     wrap.appendChild(btn);
   }
 }
-
-// Admin buttons
 $('#open97').addEventListener('click', ()=>{
   if (!ADMIN_ON) return;
   const hours = Array.from({length:11},(_,i)=>9+i);
@@ -183,8 +150,6 @@ $('#importJSON').addEventListener('change', (e)=>{
   };
   reader.readAsText(f);
 });
-
-// Booking form
 $('#bookingForm').addEventListener('submit', (e)=>{
   e.preventDefault();
   const name = $('#name').value.trim();
@@ -193,15 +158,11 @@ $('#bookingForm').addEventListener('submit', (e)=>{
   const slot = $('#slotValue').value;
   if(!slot) return alert('Please choose a time.');
   if(!name || !email || !suburb) return alert('Please complete your details.');
-  const booking = {
-    id: crypto.randomUUID(), name, email, suburb,
-    service: $('#service').value, slot, notes: $('#notes').value.trim()
-  };
+  const booking = { id: crypto.randomUUID(), name, email, suburb, service: $('#service').value, slot, notes: $('#notes').value.trim() };
   state.bookings.push(booking); save(state);
   alert('Thanks! Your request has been placed. (Demo)'); $('#bookingForm').reset();
   renderSlots(); renderBookingsTable();
 });
-
 function renderBookingsTable(){
   const tbody = $('#bookingsBody'); tbody.innerHTML='';
   if(state.bookings.length===0){ $('#noBookings').style.display='block'; return; }
@@ -209,18 +170,10 @@ function renderBookingsTable(){
   state.bookings.forEach(b=>{
     const tr=document.createElement('tr');
     const when = new Date(b.slot).toLocaleString([], {weekday:'short', day:'numeric', month:'short', hour:'numeric', minute:'2-digit'});
-    const svc = SERVICES.find(s=>s.key===b.service)?.name || b.service;
-    tr.innerHTML = `<td>${b.name}</td><td class="muted small">${svc}</td><td>${when}</td><td class="muted small">${b.email}<br/>${b.suburb}</td><td>${b.notes||''}</td><td>${ADMIN_ON?'<button class="btn small" data-id="'+b.id+'">Cancel</button>':''}</td>`;
+    tr.innerHTML = `<td>${b.name}</td><td class="muted small">${b.service}</td><td>${when}</td><td class="muted small">${b.email}<br/>${b.suburb}</td><td>${b.notes||''}</td>`;
     tbody.appendChild(tr);
   });
-  $$('#bookingsBody button').forEach(btn=>btn.addEventListener('click', ()=>{
-    const id=btn.getAttribute('data-id');
-    state.bookings = state.bookings.filter(b=>b.id!==id); save(state);
-    renderSlots(); renderBookingsTable();
-  }));
 }
-
-// Initial renders
 renderMiniCalendars(); renderSlots(); renderAdminHours(); renderBookingsTable();
 if (ADMIN_ON) { $('#adminToggle').textContent = 'Admin: On'; $('#adminPanel').style.display = 'block'; }
 })(); 
