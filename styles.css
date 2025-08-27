@@ -12,7 +12,30 @@ nav a{margin:0 8px;color:#374151;text-decoration:none}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:14px;border:1px solid #e5e7eb;background:#fff;cursor:pointer}
 .btn.primary{background:var(--rose);color:#fff;border-color:var(--rose)}
 .badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:#ffe4e6;color:#9f1239;border:1px solid #fecdd3;font-size:12px}
-.hero{background:linear-gradient(#fff, #fff), radial-gradient(80% 60% at 100% 0%, #ffe4e680, transparent 70%);}
+.hero {
+  position: relative;
+  height: 600px;                 /* adjust height as needed */
+  background-size: cover;        /* scale image to fill area */
+  background-position: center;   /* keep main subject centered */
+  background-repeat: no-repeat;  /* don’t tile */
+}
+
+.hero .overlay {
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  background: rgba(0,0,0,0.35);  /* dark overlay so text is readable */
+}
+
+.hero .copy {
+  position: relative;
+  z-index: 1;                    /* sit above overlay */
+  display: grid;
+  place-items: center;           /* center horizontally + vertically */
+  text-align: center;
+  color: #fff;
+  height: 100%;
+}
+
 .hero-grid{display:grid;grid-template-columns:1fr;gap:24px;padding:40px 0}
 @media(min-width:960px){.hero-grid{grid-template-columns:1fr 1fr;align-items:center}}
 .card{border:1px solid #e5e7eb;border-radius:16px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
