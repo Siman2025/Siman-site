@@ -60,30 +60,32 @@ $('#adminToggle').addEventListener('click', ()=>{
   $('#adminPanel').style.display = ADMIN_ON ? 'block':'none';
 });
 
-// Populate services
-const svcSel = $('#service');
 SERVICES.forEach(s=>{
-  const opt = document.createElement('option');
-  opt.value = s.key;
-  opt.textContent = `${s.name} — ${s.minutes} min ($${s.price})`;
-  svcSel.appendChild(opt);
-});
-const servicesWrap = $('#servicesCards');
-const pricingWrap = $('#pricingCards');
-SERVICES.forEach(s=>{
+  // Service info cards
   const c = document.createElement('div');
-  c.className='card pad';
-  c.innerHTML = `<div style="font-weight:600">${s.name}</div>
-    <div class="muted small">${s.blurb}</div>
-    <div class="small" style="margin-top:6px">Duration: ${s.minutes} min</div>`;
+  c.className = 'card pad service-card';
+  c.innerHTML = `
+    ${s.img ? `<img class="service-thumb" src="${s.img}" alt="${s.name}">` : ''}
+    <div style="font-weight:600">${s.name}</div>
+    <div class="muted small">${s.blurb || ''}</div>
+    <div class="small" style="margin-top:6px">Duration: ${s.minutes} min</div>
+  `;
   servicesWrap.appendChild(c);
+
+  // Pricing cards
   const p = document.createElement('div');
-  p.className='card pad';
-  p.innerHTML = `<div style="font-weight:600">${s.name}</div>
-  <div style="font-size:26px;font-weight:700;margin-top:8px">$${s.price}<span class="muted" style="font-size:14px;font-weight:400"> / ${s.minutes}m</span></div>
-  <a href="#booking" class="btn primary" style="margin-top:10px;display:inline-block">Book this</a>`;
+  p.className = 'card pad service-card';
+  p.innerHTML = `
+    ${s.img ? `<img class="service-thumb" src="${s.img}" alt="${s.name}">` : ''}
+    <div style="font-weight:600">${s.name}</div>
+    <div style="font-size:26px;font-weight:700;margin-top:8px">
+      $${s.price}<span class="muted" style="font-size:14px;font-weight:400"> / ${s.minutes}m</span>
+    </div>
+    <a href="#booking" class="btn primary" style="margin-top:10px;display:inline-block">Book this</a>
+  `;
   pricingWrap.appendChild(p);
 });
+
 
 // Calendars
 let selectedDate = new Date(today);
