@@ -11,6 +11,9 @@ const SERVICES = [
   {key:'deep', name:'Deep Tissue Massage', minutes:60, price:129, blurb:'Target knots and chronic tension.'},
   {key:'remedial', name:'Remedial Massage', minutes:60, price:139, blurb:'Assessment + treatment for aches and pains.'},
   {key:'pregnancy', name:'Pregnancy Massage', minutes:60, price:129, blurb:'Side-lying comfort for mums-to-be (2nd–3rd trimester).'},
+  {key:'head', name:'Head Massage', minutes:30, price:55, blurb:'Indian style head massage.'},
+  {key:'stone', name:'Stone Massage', minutes:60, price:129},
+  {key:'foot', name:'Foot Massage', minutes:60, price:129},
 ];
 
 // === Simple admin password gate ===
