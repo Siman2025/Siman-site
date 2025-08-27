@@ -26,7 +26,18 @@ body::after {
 header{position:sticky;top:0;z-index:10;backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid #eee;background:#ffffffd9}
 header .bar{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
 .brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:inherit}
-.logo{height:36px;width:36px;border-radius:12px;background:var(--rose);color:#fff;display:grid;place-items:center;font-weight:700}
+.logo {
+  height:40px;       /* adjust size */
+  width:auto;
+  border-radius:8px; /* optional if you want rounded corners */
+  overflow:hidden;   /* hides any overflow edges */
+}
+.logo img {
+  height:100%;
+  width:auto;
+  display:block;
+}
+
 nav a{margin:0 8px;color:#374151;text-decoration:none}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:14px;border:1px solid #e5e7eb;background:#fff;cursor:pointer}
 .btn.primary{background:var(--rose);color:#fff;border-color:var(--rose)}
