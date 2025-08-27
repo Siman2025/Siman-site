@@ -14,7 +14,7 @@ nav a{margin:0 8px;color:#374151;text-decoration:none}
 .badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:#ffe4e6;color:#9f1239;border:1px solid #fecdd3;font-size:12px}
 .hero {
   position: relative;
-  height: 600px;                 /* adjust height as needed */
+  height: 300px;                 /* adjust height as needed */
   background-size: cover;        /* scale image to fill area */
   background-position: center;   /* keep main subject centered */
   background-repeat: no-repeat;  /* don’t tile */
