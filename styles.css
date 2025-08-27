@@ -91,3 +91,11 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .table tr+tr td{border-top:1px solid #eee}
 .table td{padding:10px 6px;vertical-align:top}
 .admin-toggle{font-size:12px}
+.service-card img.service-thumb {
+  width: 100%;
+  height: 180px;         /* adjust height to taste (180–220px is good) */
+  object-fit: cover;     /* neat crop */
+  border-radius: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #eee;
+}
