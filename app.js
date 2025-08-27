@@ -7,13 +7,13 @@ const pad = (n)=> String(n).padStart(2,'0');
 const toSlot = (d,h)=> `${fmtDate(d)}T${pad(h)}:00`;
 const today = new Date(); today.setHours(0,0,0,0);
 const SERVICES = [
-  {key:'relaxation', name:'Relaxation Massage', minutes:60, price:109, blurb:'Light–medium pressure to melt stress.'},
-  {key:'deep', name:'Deep Tissue Massage', minutes:60, price:129, blurb:'Target knots and chronic tension.'},
-  {key:'remedial', name:'Remedial Massage', minutes:60, price:139, blurb:'Assessment + treatment for aches and pains.'},
-  {key:'pregnancy', name:'Pregnancy Massage', minutes:60, price:129, blurb:'Side-lying comfort for mums-to-be (2nd–3rd trimester).'},
-  {key:'head', name:'Head Massage', minutes:30, price:55, blurb:'Indian style head massage.'},
-  {key:'stone', name:'Stone Massage', minutes:60, price:129},
-  {key:'foot', name:'Foot Massage', minutes:60, price:129},
+  {key:'relaxation', name:'Relaxation Massage', minutes:60, price:109, blurb:'Light–medium pressure to melt stress.', img:'image/Relax.JPG'},
+  {key:'deep', name:'Deep Tissue Massage', minutes:60, price:129, blurb:'Target knots and chronic tension.', img:'image/tissue.JPG'},
+  {key:'remedial', name:'Remedial Massage', minutes:60, price:139, blurb:'Assessment + treatment for aches and pains.', img:'image/Remedial.JPG'},
+  {key:'pregnancy', name:'Pregnancy Massage', minutes:60, price:129, blurb:'Side-lying comfort for mums-to-be (2nd–3rd trimester).', img:'image/preg.JPG'},
+  {key:'head', name:'Head Massage', minutes:30, price:55, blurb:'Indian style head massage.', img:'image/head.JPG'},
+  {key:'stone', name:'Stone Massage', minutes:60, price:129, img:'image/stone.JPG'},
+  {key:'foot', name:'Foot Massage', minutes:60, price:129, img:'image/foot.JPG'},
 ];
 
 // === Simple admin password gate ===
