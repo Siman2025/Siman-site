@@ -1,4 +1,3 @@
-
 (function(){
 const $ = (s, el=document) => el.querySelector(s);
 const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
@@ -6,6 +5,7 @@ const fmtDate = (d) => d.toISOString().slice(0,10);
 const pad = (n)=> String(n).padStart(2,'0');
 const toSlot = (d,h)=> `${fmtDate(d)}T${pad(h)}:00`;
 const today = new Date(); today.setHours(0,0,0,0);
+
 const SERVICES = [
   {key:'relaxation', name:'Relaxation Massage', minutes:60, price:109, blurb:'Light–medium pressure to melt stress.', img:'image/Relax.JPG'},
   {key:'deep', name:'Deep Tissue Massage', minutes:60, price:129, blurb:'Target knots and chronic tension.', img:'image/tissue.JPG'},
@@ -48,40 +48,84 @@ function buildInitial(){
 let state = load() || buildInitial();
 save(state);
 
-// Admin toggle
-$('#adminToggle').addEventListener('click', ()=>{
-  if (!ADMIN_ON) {
-    if (!requireAdmin()) return;
-  } else {
-    ADMIN_ON = false;
-    try { sessionStorage.removeItem("siman_admin_on"); } catch {}
+// Admin toggle (guard in case button not on page)
+const adminBtn = $('#adminToggle');
+if (adminBtn) {
+  adminBtn.addEventListener('click', ()=>{
+    if (!ADMIN_ON) {
+      if (!requireAdmin()) return;
+    } else {
+      ADMIN_ON = false;
+      try { sessionStorage.removeItem("siman_admin_on"); } catch {}
+    }
+    $('#adminToggle').textContent = ADMIN_ON ? 'Admin: On' : 'Admin: Off';
+    const panel = $('#adminPanel');
+    if (panel) panel.style.display = ADMIN_ON ? 'block':'none';
+  });
+}
+
+/* ---------------------------
+   SERVICES UI (dropdown + cards)
+   --------------------------- */
+
+// Fill the <select id="service"> with options
+function populateServiceDropdown(){
+  const svcSel = $('#service');
+  if (!svcSel) return;
+  svcSel.innerHTML = '';
+  SERVICES.forEach(s=>{
+    const opt = document.createElement('option');
+    opt.value = s.key;
+    opt.textContent = `${s.name} — ${s.minutes} min ($${s.price})`;
+    svcSel.appendChild(opt);
+  });
+}
+
+// Render the Services and Pricing cards into their wrappers
+function renderServiceAndPricingCards(){
+  const servicesWrap = $('#servicesCards');
+  const pricingWrap  = $('#pricingCards');
+
+  if (servicesWrap) {
+    servicesWrap.innerHTML = '';
+    SERVICES.forEach(s=>{
+      const c = document.createElement('div');
+      c.className='card pad service-card';
+      c.innerHTML = `
+        ${s.img ? `<img class="service-thumb" src="${s.img}" alt="${s.name}">` : ''}
+        <div style="font-weight:600">${s.name}</div>
+        <div class="muted small">${s.blurb || ''}</div>
+        <div class="small" style="margin-top:6px">Duration: ${s.minutes} min</div>`;
+      servicesWrap.appendChild(c);
+    });
   }
-  $('#adminToggle').textContent = ADMIN_ON ? 'Admin: On' : 'Admin: Off';
-  $('#adminPanel').style.display = ADMIN_ON ? 'block':'none';
-});
 
-SERVICES.forEach(s=>{
-  const c = document.createElement('div');
-  c.className='card pad';
-  c.innerHTML = `<div style="font-weight:600">${s.name}</div>
-    <div class="muted small">${s.blurb}</div>
-    <div class="small" style="margin-top:6px">Duration: ${s.minutes} min</div>`;
-  servicesWrap.appendChild(c);
+  if (pricingWrap) {
+    pricingWrap.innerHTML = '';
+    SERVICES.forEach(s=>{
+      const p = document.createElement('div');
+      p.className='card pad service-card';
+      p.innerHTML = `
+        ${s.img ? `<img class="service-thumb" src="${s.img}" alt="${s.name}">` : ''}
+        <div style="font-weight:600">${s.name}</div>
+        <div style="font-size:26px;font-weight:700;margin-top:8px">
+          $${s.price}<span class="muted" style="font-size:14px;font-weight:400"> / ${s.minutes}m</span>
+        </div>
+        <a href="#booking" class="btn primary" style="margin-top:10px;display:inline-block">Book this</a>`;
+      pricingWrap.appendChild(p);
+    });
+  }
+}
 
-  const p = document.createElement('div');
-  p.className='card pad';
-  p.innerHTML = `<div style="font-weight:600">${s.name}</div>
-  <div style="font-size:26px;font-weight:700;margin-top:8px">$${s.price}<span class="muted" style="font-size:14px;font-weight:400"> / ${s.minutes}m</span></div>
-  <a href="#booking" class="btn primary" style="margin-top:10px;display:inline-block">Book this</a>`;
-  pricingWrap.appendChild(p);
-});
-
+// Initialize the services UI
+populateServiceDropdown();
+renderServiceAndPricingCards();
 
 
 // Calendars
 let selectedDate = new Date(today);
 function renderMiniCalendars(){
-  const grid = $('#bookingDays'); grid.innerHTML='';
+  const grid = $('#bookingDays'); if (grid) grid.innerHTML='';
   for(let i=0;i<21;i++){
     const d=new Date(today); d.setDate(d.getDate()+i);
     const key=fmtDate(d);
@@ -94,9 +138,9 @@ function renderMiniCalendars(){
       <div class="small">${available} slots</div>`;
     btn.disabled = available===0;
     btn.addEventListener('click', ()=>{selectedDate=d; renderMiniCalendars(); renderSlots();});
-    grid.appendChild(btn);
+    if (grid) grid.appendChild(btn);
   }
-  const adminGrid = $('#adminDays'); adminGrid.innerHTML='';
+  const adminGrid = $('#adminDays'); if (adminGrid) adminGrid.innerHTML='';
   for(let i=0;i<21;i++){
     const d=new Date(today); d.setDate(d.getDate()+i);
     const key=fmtDate(d); const count=(state.availability[key]||[]).length;
@@ -106,12 +150,12 @@ function renderMiniCalendars(){
       <div class="muted">${d.toLocaleDateString(undefined,{day:'numeric', month:'short'})}</div>
       <div class="small">${count} slots</div>`;
     btn.addEventListener('click', ()=>{selectedDate=d; renderMiniCalendars(); renderAdminHours();});
-    adminGrid.appendChild(btn);
+    if (adminGrid) adminGrid.appendChild(btn);
   }
 }
 function renderSlots(){
   const key=fmtDate(selectedDate);
-  const wrap = $('#slots'); wrap.innerHTML='';
+  const wrap = $('#slots'); if (!wrap) return; wrap.innerHTML='';
   const bookedSet = new Set(state.bookings.map(b=>b.slot));
   const slots = (state.availability[key]||[]).filter(s=>!bookedSet.has(s));
   if(slots.length===0){ wrap.innerHTML=`<div class="muted small">No times available — try another day.</div>`; return; }
@@ -122,15 +166,16 @@ function renderSlots(){
     btn.addEventListener('click', ()=>{
       $$('.slot-btn', wrap).forEach(b=>b.classList.remove('sel'));
       btn.classList.add('sel');
-      $('#slotValue').value = s;
+      const slotInput = $('#slotValue'); if (slotInput) slotInput.value = s;
     });
     wrap.appendChild(btn);
   });
-  $('#pickedDate').textContent = selectedDate.toLocaleDateString(undefined,{weekday:'short', day:'numeric', month:'short'});
+  const picked = $('#pickedDate');
+  if (picked) picked.textContent = selectedDate.toLocaleDateString(undefined,{weekday:'short', day:'numeric', month:'short'});
 }
 function renderAdminHours(){
   const key=fmtDate(selectedDate);
-  const wrap=$('#adminHours'); wrap.innerHTML='';
+  const wrap=$('#adminHours'); if (!wrap) return; wrap.innerHTML='';
   for(let h=0;h<24;h++){
     const slot=toSlot(selectedDate,h);
     const on = (state.availability[key]||[]).includes(slot);
@@ -150,25 +195,29 @@ function renderAdminHours(){
 }
 
 // Admin buttons
-$('#open97').addEventListener('click', ()=>{
+const open97 = $('#open97');
+if (open97) open97.addEventListener('click', ()=>{
   if (!ADMIN_ON) return;
   const hours = Array.from({length:11},(_,i)=>9+i);
   const key=fmtDate(selectedDate);
   state.availability[key]=hours.map(h=>toSlot(selectedDate,h));
   save(state); renderMiniCalendars(); renderAdminHours(); renderSlots();
 });
-$('#closeDay').addEventListener('click', ()=>{
+const closeDay = $('#closeDay');
+if (closeDay) closeDay.addEventListener('click', ()=>{
   if (!ADMIN_ON) return;
   const key=fmtDate(selectedDate); state.availability[key]=[]; save(state);
   renderMiniCalendars(); renderAdminHours(); renderSlots();
 });
-$('#exportJSON').addEventListener('click', ()=>{
+const exportBtn = $('#exportJSON');
+if (exportBtn) exportBtn.addEventListener('click', ()=>{
   if (!ADMIN_ON) return;
   const blob=new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
   const url=URL.createObjectURL(blob); const a=document.createElement('a');
   a.href=url; a.download='siman_availability_export.json'; a.click(); URL.revokeObjectURL(url);
 });
-$('#importJSON').addEventListener('change', (e)=>{
+const importInput = $('#importJSON');
+if (importInput) importInput.addEventListener('change', (e)=>{
   if (!ADMIN_ON) return;
   const f=e.target.files[0]; if(!f) return;
   const reader=new FileReader();
@@ -181,7 +230,8 @@ $('#importJSON').addEventListener('change', (e)=>{
 });
 
 // Booking form
-$('#bookingForm').addEventListener('submit', (e)=>{
+const form = $('#bookingForm');
+if (form) form.addEventListener('submit', (e)=>{
   e.preventDefault();
   const name = $('#name').value.trim();
   const email = $('#email').value.trim();
@@ -194,14 +244,15 @@ $('#bookingForm').addEventListener('submit', (e)=>{
     service: $('#service').value, slot, notes: $('#notes').value.trim()
   };
   state.bookings.push(booking); save(state);
-  alert('Thanks! Your request has been placed. (Demo)'); $('#bookingForm').reset();
+  alert('Thanks! Your request has been placed. (Demo)'); form.reset();
   renderSlots(); renderBookingsTable();
 });
 
 function renderBookingsTable(){
-  const tbody = $('#bookingsBody'); tbody.innerHTML='';
-  if(state.bookings.length===0){ $('#noBookings').style.display='block'; return; }
-  $('#noBookings').style.display='none';
+  const tbody = $('#bookingsBody'); if (!tbody) return;
+  tbody.innerHTML='';
+  if(state.bookings.length===0){ const nb=$('#noBookings'); if(nb) nb.style.display='block'; return; }
+  const nb=$('#noBookings'); if(nb) nb.style.display='none';
   state.bookings.forEach(b=>{
     const tr=document.createElement('tr');
     const when = new Date(b.slot).toLocaleString([], {weekday:'short', day:'numeric', month:'short', hour:'numeric', minute:'2-digit'});
@@ -218,5 +269,5 @@ function renderBookingsTable(){
 
 // Initial renders
 renderMiniCalendars(); renderSlots(); renderAdminHours(); renderBookingsTable();
-if (ADMIN_ON) { $('#adminToggle').textContent = 'Admin: On'; $('#adminPanel').style.display = 'block'; }
-})(); 
+if (ADMIN_ON) { const t=$('#adminToggle'); if (t) t.textContent = 'Admin: On'; const p=$('#adminPanel'); if (p) p.style.display = 'block'; }
+})();
