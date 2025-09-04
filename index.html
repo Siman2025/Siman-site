@@ -20,7 +20,7 @@
       </a>
       <nav class="hide-sm">
         <a href="#services">Services</a>
-        <a href="#pricing">Pricing</a>
+        <a href="#services">Pricing</a> <!-- point Pricing to Services -->
         <a href="#about">About</a>
         <a href="#booking">Booking</a>
         <a href="#faqs">FAQs</a>
@@ -65,21 +65,14 @@
       </div>
     </section>
 
-    <!-- Services -->
+    <!-- COMBINED Services + Pricing -->
     <section id="services" class="section">
       <div class="container">
-        <h2>Services</h2>
+        <h2>Services & pricing</h2>
         <div class="muted">Gentle, respectful and tailored to your needs. Women of all ages welcome.</div>
-        <div id="servicesCards" class="row row-4" style="margin-top:16px"></div>
-      </div>
-    </section>
 
-    <!-- Pricing -->
-    <section id="pricing" class="section" style="background:#fff5f7">
-      <div class="container">
-        <h2>Simple pricing</h2>
-        <div class="muted">No travel fees in local service area. Add $20 for evenings after 7pm.</div>
-        <div id="pricingCards" class="row row-4" style="margin-top:16px"></div>
+        <!-- JS will render the 7 cards here -->
+        <div id="servicesGrid" class="row row-4" style="margin-top:16px"></div>
       </div>
     </section>
 
