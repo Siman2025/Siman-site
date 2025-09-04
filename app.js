@@ -8,16 +8,16 @@ const today = new Date(); today.setHours(0,0,0,0);
 
 const SERVICES = [
   {key:'relaxation', name:'Relaxation Massage', minutes:60, price:109, blurb:'Light–medium pressure to melt stress.', img:'image/Relax.JPG'},
-  {key:'deep', name:'Deep Tissue Massage', minutes:60, price:129, blurb:'Target knots and chronic tension.', img:'image/tissue.JPG'},
-  {key:'remedial', name:'Remedial Massage', minutes:60, price:139, blurb:'Assessment + treatment for aches and pains.', img:'image/Remedial.JPG'},
-  {key:'pregnancy', name:'Pregnancy Massage', minutes:60, price:129, blurb:'Side-lying comfort for mums-to-be (2nd–3rd trimester).', img:'image/preg.JPG'},
-  {key:'head', name:'Head Massage', minutes:30, price:55, blurb:'Indian style head massage.', img:'image/head.JPG'},
-  {key:'stone', name:'Stone Massage', minutes:60, price:129, img:'image/stone.JPG'},
-  {key:'foot', name:'Foot Massage', minutes:60, price:129, img:'image/foot.JPG'},
+  {key:'deep',       name:'Deep Tissue Massage', minutes:60, price:129, blurb:'Target knots and chronic tension.',   img:'image/tissue.JPG'},
+  {key:'remedial',   name:'Remedial Massage',    minutes:60, price:139, blurb:'Assessment + treatment for aches and pains.', img:'image/Remedial.JPG'},
+  {key:'pregnancy',  name:'Pregnancy Massage',   minutes:60, price:129, blurb:'Side-lying comfort for mums-to-be (2nd–3rd trimester).', img:'image/preg.JPG'},
+  {key:'head',       name:'Head Massage',        minutes:30, price:55,  blurb:'Indian style head massage.',         img:'image/head.JPG'},
+  {key:'stone',      name:'Stone Massage',       minutes:60, price:129, blurb:'Warm stones to deeply relax.',       img:'image/stone.JPG'},
+  {key:'foot',       name:'Foot Massage',        minutes:60, price:129, blurb:'Pressure points to refresh the whole body.', img:'image/foot.JPG'},
 ];
 
 // === Simple admin password gate ===
-const ADMIN_PASSWORD = "Siman!2025"; // change if you like
+const ADMIN_PASSWORD = "Siman!2025";
 let ADMIN_ON = false;
 try { ADMIN_ON = sessionStorage.getItem("siman_admin_on") === "1"; } catch {}
 function requireAdmin() {
@@ -41,14 +41,14 @@ function buildInitial(){
   for(let i=0;i<21;i++){
     const d=new Date(today); d.setDate(d.getDate()+i);
     const hours = i<7 ? [...Array(9)].map((_,k)=>9+k) : [];
-    availability[fmtDate(d)]=hours.map(h=>toSlot(d,h));
+    availability[fmtDate(d)] = hours.map(h=>toSlot(d,h));
   }
   return {availability, bookings:[]};
 }
 let state = load() || buildInitial();
 save(state);
 
-// Admin toggle (guard in case button not on page)
+// Admin toggle (guard)
 const adminBtn = $('#adminToggle');
 if (adminBtn) {
   adminBtn.addEventListener('click', ()=>{
@@ -59,16 +59,15 @@ if (adminBtn) {
       try { sessionStorage.removeItem("siman_admin_on"); } catch {}
     }
     $('#adminToggle').textContent = ADMIN_ON ? 'Admin: On' : 'Admin: Off';
-    const panel = $('#adminPanel');
-    if (panel) panel.style.display = ADMIN_ON ? 'block':'none';
+    const panel = $('#adminPanel'); if (panel) panel.style.display = ADMIN_ON ? 'block':'none';
   });
 }
 
 /* ---------------------------
-   SERVICES UI (dropdown + cards)
+   SERVICES UI (dropdown + ONE grid)
    --------------------------- */
 
-// Fill the <select id="service"> with options
+// 1) Fill the booking <select id="service">
 function populateServiceDropdown(){
   const svcSel = $('#service');
   if (!svcSel) return;
@@ -81,46 +80,43 @@ function populateServiceDropdown(){
   });
 }
 
-// Render the Services and Pricing cards into their wrappers
-function renderServiceAndPricingCards(){
-  const servicesWrap = $('#servicesCards');
-  const pricingWrap  = $('#pricingCards');
+// 2) Render ONE grid of service cards (image + blurb + price + CTA)
+function renderServicesCombined(){
+  const grid = $('#servicesGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
 
-  if (servicesWrap) {
-    servicesWrap.innerHTML = '';
-    SERVICES.forEach(s=>{
-      const c = document.createElement('div');
-      c.className='card pad service-card';
-      c.innerHTML = `
-        ${s.img ? `<img class="service-thumb" src="${s.img}" alt="${s.name}">` : ''}
-        <div style="font-weight:600">${s.name}</div>
-        <div class="muted small">${s.blurb || ''}</div>
-        <div class="small" style="margin-top:6px">Duration: ${s.minutes} min</div>`;
-      servicesWrap.appendChild(c);
-    });
-  }
-
-  if (pricingWrap) {
-    pricingWrap.innerHTML = '';
-    SERVICES.forEach(s=>{
-      const p = document.createElement('div');
-      p.className='card pad service-card';
-      p.innerHTML = `
-        ${s.img ? `<img class="service-thumb" src="${s.img}" alt="${s.name}">` : ''}
-        <div style="font-weight:600">${s.name}</div>
-        <div style="font-size:26px;font-weight:700;margin-top:8px">
-          $${s.price}<span class="muted" style="font-size:14px;font-weight:400"> / ${s.minutes}m</span>
+  SERVICES.forEach(s=>{
+    const card = document.createElement('div');
+    card.className = 'card pad service-card';
+    card.innerHTML = `
+      ${s.img ? `<img class="service-thumb" src="${s.img}" alt="${s.name}">` : ''}
+      <div class="service-body">
+        <div class="service-title">${s.name}</div>
+        ${s.blurb ? `<div class="muted small">${s.blurb}</div>` : ''}
+        <div class="service-meta">
+          <span class="price"><strong>$${s.price}</strong></span>
+          <span class="muted small"> / ${s.minutes}m</span>
         </div>
-        <a href="#booking" class="btn primary" style="margin-top:10px;display:inline-block">Book this</a>`;
-      pricingWrap.appendChild(p);
-    });
-  }
+      </div>
+      <div class="service-cta">
+        <a href="#booking" class="btn primary">Book this</a>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
 }
 
-// Initialize the services UI
-populateServiceDropdown();
-renderServiceAndPricingCards();
-
+// DOM ready init for services UI
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', ()=>{
+    populateServiceDropdown();
+    renderServicesCombined();
+  });
+} else {
+  populateServiceDropdown();
+  renderServicesCombined();
+}
 
 // Calendars
 let selectedDate = new Date(today);
