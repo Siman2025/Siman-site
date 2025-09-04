@@ -1,101 +1,117 @@
+:root { --rose:#e11d48; --ink:#0a0a0a; --muted:#6b7280; }
+*{ box-sizing:border-box }
 
-:root{--rose:#e11d48;--ink:#0a0a0a;--muted:#6b7280;}
-*{box-sizing:border-box}
+/* Layout container (was missing) */
+.container{ max-width:1100px; margin:0 auto; padding:0 20px }
+
 /* Make a stacking context for the overlay */
 html, body { height: 100%; }
-body { position: relative; }
+body { position: relative; font-family: ui-sans-serif,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--ink); background:#fff; }
 
 /* Background image layer */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background: url('image/Relax.JPG') center / cover no-repeat fixed;
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  background:url('image/Relax.JPG') center / cover no-repeat fixed;
 }
 
 /* Optional: subtle dark overlay so text pops */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background: rgba(0,0,0,0.25); /* tweak 0.2–0.4 to taste */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:rgba(0,0,0,0.25);
 }
 
-header{position:sticky;top:0;z-index:10;backdrop-filter:saturate(1.2) blur(10px);border-bottom:1px solid #eee;background:#ffffffd9}
-header .bar{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
-.brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:inherit}
-.logo {
-  height: 50px;      /* controls the logo size */
-  width: auto;       /* keeps proportions */
-  display: flex;
-  align-items: center;
+/* Header / nav */
+header{
+  position:sticky; top:0; z-index:10;
+  backdrop-filter:saturate(1.2) blur(10px);
+  border-bottom:1px solid #eee;
+  background:#ffffffd9;
 }
+header .bar{ display:flex; align-items:center; justify-content:space-between; padding:12px 0 }
+.brand{ display:flex; gap:10px; align-items:center; text-decoration:none; color:inherit }
+.logo{ height:50px; width:auto; display:flex; align-items:center }
+.logo img{ height:100%; width:auto; display:block }
+nav a{ margin:0 8px; color:#374151; text-decoration:none }
 
-.logo img {
-  height: 100%;      /* make the image fit the 40px height */
-  width: auto;
-  display: block;
-}
+/* Buttons & badges */
+.btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:14px; border:1px solid #e5e7eb; background:#fff; cursor:pointer }
+.btn.primary{ background:var(--rose); color:#fff; border-color:var(--rose) }
+.badge{ display:inline-flex; align-items:center; padding:4px 10px; border-radius:999px; background:#ffe4e6; color:#9f1239; border:1px solid #fecdd3; font-size:12px }
 
+/* Hero text block */
+.hero-text{ padding:120px 0; text-align:center; color:#fff }
+.hero-text h1{ font-size:40px; line-height:1.2; margin-top:10px }
+.hero-text .lead{ color:#f3f4f6; font-size:18px; margin-top:8px }
 
-nav a{margin:0 8px;color:#374151;text-decoration:none}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:14px;border:1px solid #e5e7eb;background:#fff;cursor:pointer}
-.btn.primary{background:var(--rose);color:#fff;border-color:var(--rose)}
-.badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:#ffe4e6;color:#9f1239;border:1px solid #fecdd3;font-size:12px}
-.hero-text {
-  padding: 120px 0;
-  text-align: center;
-  color: #fff;
+/* Cards / grids / typography */
+.card{ border:1px solid #e5e7eb; border-radius:16px; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.03) }
+.card.pad{ padding:20px }
+.h1{ font-size:40px; line-height:1.1; margin:10px 0 0 }
+.lead{ color:#374151; font-size:18px }
+.row{ display:grid; grid-template-columns:1fr; gap:16px }
+@media(min-width:960px){
+  .row-2{ grid-template-columns:1fr 1fr }
+  .row-4{ grid-template-columns:repeat(4,1fr) }
 }
-.hero-text h1 {
-  font-size: 40px;
-  line-height: 1.2;
-  margin-top: 10px;
-}
-.hero-text .lead {
-  color: #f3f4f6; /* lighter gray */
-  font-size: 18px;
-  margin-top: 8px;
-}
+.section{ padding:48px 0 }
+h2{ font-size:28px; margin:0 0 6px }
+.muted{ color:var(--muted) }
 
+/* Mini grids */
+.grid-7{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px }
+.grid-6{ display:grid; grid-template-columns:repeat(6,1fr); gap:8px }
 
-.hero-grid{display:grid;grid-template-columns:1fr;gap:24px;padding:40px 0}
-@media(min-width:960px){.hero-grid{grid-template-columns:1fr 1fr;align-items:center}}
-.card{border:1px solid #e5e7eb;border-radius:16px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
-.card.pad{padding:20px}
-.h1{font-size:40px;line-height:1.1;margin:10px 0 0}
-.lead{color:#374151;font-size:18px}
-.row{display:grid;grid-template-columns:1fr;gap:16px}
-@media(min-width:960px){.row-2{grid-template-columns:1fr 1fr}.row-4{grid-template-columns:repeat(4,1fr)}}
-.section{padding:48px 0}
-h2{font-size:28px;margin:0 0 6px}
-.muted{color:var(--muted)}
-.grid-7{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
-.grid-6{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-.slot-btn{padding:6px 8px;border:1px solid #e5e7eb;border-radius:10px;background:#fff;font-size:14px;cursor:pointer}
-.slot-btn.sel{background:#ffe4e6;border-color:#fb7185}
-.small{font-size:12px}
-.footer{border-top:1px solid #eee;padding:28px 0;color:#6b7280}
-.kv{display:flex;gap:10px;align-items:center;color:#374151}
-input,select,textarea{width:100%;padding:10px 12px;border:1px solid #e5e7eb;border-radius:12px}
-label{font-size:14px;margin:6px 0}
-.form-grid{display:grid;gap:12px}
-ul.clean{padding-left:18px;margin:10px 0}
-button:disabled{opacity:.45;cursor:not-allowed}
-.calendar-day{padding:8px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;font-size:12px;cursor:pointer}
-.calendar-day.sel{border-color:#fb7185;background:#fff1f2}
-.calendar-day.disabled{opacity:.4;cursor:not-allowed}
-.table{width:100%}
-.table tr+tr td{border-top:1px solid #eee}
-.table td{padding:10px 6px;vertical-align:top}
-.admin-toggle{font-size:12px}
-.service-card img.service-thumb {
-  width: 100%;
-  height: 180px;         /* adjust height to taste (180–220px is good) */
-  object-fit: cover;     /* neat crop */
-  border-radius: 12px;
-  margin-bottom: 10px;
-  border: 1px solid #eee;
+/* Slot & calendar buttons */
+.slot-btn{ padding:6px 8px; border:1px solid #e5e7eb; border-radius:10px; background:#fff; font-size:14px; cursor:pointer }
+.slot-btn.sel{ background:#ffe4e6; border-color:#fb7185 }
+.calendar-day{ padding:8px; border:1px solid #e5e7eb; border-radius:12px; background:#fff; font-size:12px; cursor:pointer }
+.calendar-day.sel{ border-color:#fb7185; background:#fff1f2 }
+.calendar-day.disabled{ opacity:.4; cursor:not-allowed }
+
+/* Forms / table */
+.small{ font-size:12px }
+.footer{ border-top:1px solid #eee; padding:28px 0; color:#6b7280 }
+.kv{ display:flex; gap:10px; align-items:center; color:#374151 }
+input,select,textarea{ width:100%; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px }
+label{ font-size:14px; margin:6px 0 }
+.form-grid{ display:grid; gap:12px }
+ul.clean{ padding-left:18px; margin:10px 0 }
+button:disabled{ opacity:.45; cursor:not-allowed }
+.table{ width:100% }
+.table tr+tr td{ border-top:1px solid #eee }
+.table td{ padding:10px 6px; vertical-align:top }
+.admin-toggle{ font-size:12px }
+
+/* ---------- Combined Services + Pricing cards ---------- */
+.service-card{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  gap:10px;
 }
+.service-card img.service-thumb{
+  width:100%;
+  height:180px;         /* tweak 180–220px if you like */
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:10px;
+  border:1px solid #eee;
+}
+.service-card .service-body{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  flex:1;               /* pushes CTA to the bottom for equal heights */
+}
+.service-card .service-title{ font-weight:600 }
+.service-card .service-meta{ margin-top:4px }
+.service-card .service-cta{ margin-top:auto }
+
+/* Optional: slightly lighter card background on the pink section if used */
+section#services{ background:transparent }
